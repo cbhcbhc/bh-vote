@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  msmall-gateway:
+    build:
+      context: ./dockerfile
+      dockerfile: dockerfile-gateway
+    image: msmall-gateway:1.0
+    restart: always
+    container_name: msmall-gateway
+    ports:
+      - "8080:8080"
+
+  msmall-modules-product:
+    build:
+      context: ./dockerfile
+      dockerfile: dockerfile-product
+    image: msmall-modules-product:1.0
+    restart: always
+    container_name: msmall-modules-product
+    ports:
+      - "9202:9202"
+
+  msmall-modules-ware:
+    build:
+      context: ./dockerfile
+      dockerfile: dockerfile-ware
+    image: msmall-modules-ware:1.0
+    restart: always
+    container_name: msmall-modules-ware
+    ports:
+      - "9204:9204"
+
+  msmall-api-oss:
+    build:
+      context: ./dockerfile
+      dockerfile: dockerfile-oss
+    image: msmall-api-oss:1.0
+    restart: always
+    container_name: msmall-api-oss
+    ports:
+      - "9000:9000"
+

@@ -1,0 +1,17 @@
+# 使用官方的Java基础镜像
+FROM openjdk:8-jdk-alpine
+ENV JAVA_OPTS="-Xmx100m"
+# 挂载目录
+VOLUME /app
+
+# 设置工作目录
+WORKDIR /app
+
+# 将jar文件复制到容器中
+COPY ./jar/msmall-gateway.jar /app/msmall-gateway.jar
+
+# 暴露服务所需的端口
+EXPOSE 8080
+
+# 在容器中运行Java应用程序
+ENTRYPOINT exec java $JAVA_OPTS -jar msmall-gateway.jar
