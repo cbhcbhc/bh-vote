@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: vote-modules-vote
+  profiles:
+    active: dev
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 114.132.230.26:8848
+      #获取配置信息
+      config:
+        server-addr: 114.132.230.26:8848
+        #从gateway命名空间下获取配置
+        namespace: 76f67b18-2761-4ceb-898c-4065b7e66997
+        # 配置文件后缀名
+        file-extension: yml
