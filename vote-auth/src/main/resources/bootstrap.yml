@@ -1,8 +1,8 @@
 server:
-  port: 9001
+  port: 10000
 spring:
   application:
-    name: vote-modules-vote
+    name: vote-auth
   profiles:
     active: dev
 
@@ -14,6 +14,6 @@ spring:
       config:
         server-addr: 139.159.162.93:8848
         #从gateway命名空间下获取配置
-        namespace: 856e9c8b-1464-475d-949e-145e9586dbb2
+        namespace: 05a3b650-521c-4aad-8c73-9ea77a99ccc4
         # 配置文件后缀名
         file-extension: yml
