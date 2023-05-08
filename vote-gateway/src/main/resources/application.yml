@@ -5,11 +5,19 @@ spring:
     name: vote-gateway
   profiles:
     active: dev
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: system-service   # 路由名称
-#          uri: lb://msmall-system  # 路由的地址，lb表示使用负载均衡到微服务，也可以使用http正常转发
-#          predicates: # 路由规则，断言什么请求会被路由
-#            - Path=/system/** # 只要是访问的这个路径，一律都被路由到上面指定的服务
+  cloud:
+    gateway:
+      routes:
+        - id: vote-modules-vote
+          uri: lb://vote-modules-vote
+          predicates:
+            - Path=/vote/**
+          filters:
+            - StripPrefix=1
 
+        - id: vote-auth
+          uri: lb://vote-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1

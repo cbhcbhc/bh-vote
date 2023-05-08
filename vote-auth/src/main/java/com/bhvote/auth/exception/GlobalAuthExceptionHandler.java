@@ -1,4 +1,4 @@
-package com.bhvote.vote.exception;
+package com.bhvote.auth.exception;
 
 
 import domain.R;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 配置统一异常接口
  */
-@RestControllerAdvice(basePackages = "com.bhvote.vote.controller")
+@RestControllerAdvice(basePackages = "com.bhvote.auth.controller")
 @Slf4j
-public class GlobalVoteExceptionHandler {
+public class GlobalAuthExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R exceptionHandler(Exception e){
         //打印异常信息

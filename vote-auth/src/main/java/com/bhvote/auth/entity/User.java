@@ -21,7 +21,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @TableName("User")
 public class User  {
-    //用户ID@TableId
+    //用户ID
+    @TableId
+    private Long id;
+
+    //用户账号(微信小程序标识)
     private Long userId;
 
     //用户名
