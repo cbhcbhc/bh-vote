@@ -37,6 +37,5 @@ public class Uservoterecord  {
     private Integer delFlag;
 
 
-
 }
 
