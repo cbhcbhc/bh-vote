@@ -24,9 +24,8 @@ public class VoteOption  {
     //选项ID
     @TableId
     private Long optionId;
-
     //投票ID
-    private Integer voteId;
+    private Long voteId;
     //选项内容
     private String optionContent;
     //选项图片

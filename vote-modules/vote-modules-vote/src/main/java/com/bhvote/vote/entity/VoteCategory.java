@@ -1,5 +1,6 @@
 package com.bhvote.vote.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import java.io.Serializable;
@@ -20,7 +21,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @TableName("vote_category")
 public class VoteCategory  {
-    //投票分类id@TableId
+    //投票分类id
+    @TableId
     private Long categoryId;
 
     //投票分类名字
@@ -31,12 +33,10 @@ public class VoteCategory  {
     private String categoryDescription;
     //投票id
     private Long voteId;
-    //排序标志（数字越小越靠前）
-    private Integer sort;
     //创建时间
-    private Date createTime;
+    private LocalDateTime createTime;
     //更新时间
-    private Date updateTime;
+    private LocalDateTime updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
 

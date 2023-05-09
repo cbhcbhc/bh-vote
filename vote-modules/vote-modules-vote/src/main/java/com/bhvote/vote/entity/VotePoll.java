@@ -33,6 +33,10 @@ public class VotePoll  {
     private String voteImage;
     //创建者ID
     private Long voteCreatorId;
+    //投票类型：0代表单选，1代表可多选
+    private Integer voteType;
+    //排序标志（数字越小越靠前）
+    private Integer sort;
     //开始时间
     private LocalDateTime voteStartTime;
     //结束时间
@@ -43,8 +47,6 @@ public class VotePoll  {
     private LocalDateTime updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
-
-
 
 }
 
