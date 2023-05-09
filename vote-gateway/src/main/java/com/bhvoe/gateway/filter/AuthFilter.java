@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import utils.JwtUtil;
@@ -31,7 +32,7 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
-    private GateWayWhiteListConfig whiteListConfig;
+    private GateWayWhiteListConfig gateWayWhiteListConfig;
     @Resource
     private RedisService redisService;
 
@@ -53,7 +54,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String requestPath = request.getURI().getPath();
 
         // 判断当前请求是否需要放行
-        if (whiteListConfig.isPathWhiteListed(requestPath)) {
+        if (gateWayWhiteListConfig.isPathWhiteListed(requestPath)) {
             // 如果请求路径在白名单中，直接放行
             return chain.filter(exchange);
         }

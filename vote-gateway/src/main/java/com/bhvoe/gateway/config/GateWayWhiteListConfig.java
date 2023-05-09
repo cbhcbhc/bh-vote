@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @RefreshScope
 public class GateWayWhiteListConfig {
-    @Value("#{'${whitepath:}'.split(',')}")
+    @Value("#{'${gateway.whitelist.paths:}'.split(',')}")
     private List<String> whitepathList;
 
     /**

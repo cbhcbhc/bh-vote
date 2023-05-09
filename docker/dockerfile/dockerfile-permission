@@ -8,10 +8,10 @@ VOLUME /app
 WORKDIR /app
 
 # 将jar文件复制到容器中
-COPY ./jar/vote-gateway.jar /app/vote-gateway.jar
+COPY ./jar/vote-modules-permission.jar /app/vote-modules-permission.jar
 
 # 暴露服务所需的端口
-EXPOSE 8080
+EXPOSE 9202
 
 # 在容器中运行Java应用程序
-ENTRYPOINT exec java $JAVA_OPTS -jar vote-gateway.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar vote-modules-permission.jar
