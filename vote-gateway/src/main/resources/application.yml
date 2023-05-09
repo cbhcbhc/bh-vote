@@ -21,3 +21,6 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
+whitepath:
+  - /auth/auth/register
+  - /auth/auth/login
