@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Component
 @Data
-//动态获取nacos配置里面的值
 @RefreshScope
 public class GateWayWhiteListConfig {
     @Value("#{'${whitepath:}'.split(',')}")

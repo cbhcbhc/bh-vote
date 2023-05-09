@@ -3,7 +3,10 @@ package com.bhvoe.gateway.filter;
 //import com.msmall.gateway.config.GateWayWhiteListConfig;
 import com.alibaba.fastjson.JSONObject;
 import com.bhvoe.gateway.config.GateWayWhiteListConfig;
+import com.bhvoe.gateway.constant.GatewayConstant;
 import com.bhvote.redis.service.RedisService;
+import enums.AppHttpCodeEnum;
+import exception.SystemException;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -22,7 +25,7 @@ import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 认证全局拦截
+ * 认证全局过滤器
  */
 //@Component
 @Slf4j
@@ -32,8 +35,14 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
     private RedisService redisService;
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer ";
+    /**
+     * 请求头
+     */
+    private static final String AUTHORIZATION_HEADER = GatewayConstant.HEADER;
+    /**
+     * Bearer
+     */
+    private static final String BEARER_PREFIX = GatewayConstant.BEARER;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -67,11 +76,11 @@ public class AuthFilter implements GlobalFilter, Ordered {
         try {
             claims = JwtUtil.parseJWT(token);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new SystemException(AppHttpCodeEnum.TOKEN_ERROR);
         }
         //获取账户id
         String userId = claims.getSubject();
-        String tokenKey = "login-" + userId;
+        String tokenKey = GatewayConstant.REDISTOKEN+ userId;
         //进行校验
         if (userId!= null && redisService.getCacheObject(tokenKey) == token){
             // 将token放入请求头中，传递给下游服务
@@ -80,8 +89,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
 
         // 如果token无效，返回鉴权失败
-        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-        return exchange.getResponse().setComplete();
+        log.error("token非法...");
+        return writeResponse(exchange.getResponse(),503,"token非法...");
     }
 
     /**
