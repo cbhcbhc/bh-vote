@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bhvote.auth.dto.LoginDto;
 import com.bhvote.auth.dto.RegisterDto;
 import com.bhvote.auth.entity.User;
+import com.bhvote.auth.feign.PermissionFeignService;
 import com.bhvote.auth.mapper.UserMapper;
 import com.bhvote.auth.service.UserService;
 import com.bhvote.redis.service.RedisService;
@@ -12,6 +13,7 @@ import enums.AppHttpCodeEnum;
 import exception.SystemException;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import utils.JwtUtil;
@@ -31,6 +33,10 @@ import java.time.LocalDateTime;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Resource
     private RedisService redisService;
+    @Resource
+    private PermissionFeignService permissionFeignService;
+
+    @Transactional
     @Override
     public void register(RegisterDto registerDto) {
         //1.判断账号是否已经注册
@@ -51,6 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUserPassword(PasswordEncoderUtil.encode(registerDto.getUserPassword()));
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
+
+        //3.授权（普通用户）
+        permissionFeignService.authorizeByUserId(registerDto.getUserId());
 
         //保存
         save(user);
