@@ -1,7 +1,7 @@
 package com.bhvote.vote.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bhvote.vote.entity.Uservoterecord;
+import com.bhvote.vote.entity.UserVoteRecord;
 
 
 /**
@@ -10,7 +10,7 @@ import com.bhvote.vote.entity.Uservoterecord;
  * @author makejava
  * @since 2023-05-08 16:17:39
  */
-public interface UservoterecordMapper extends BaseMapper<Uservoterecord> {
+public interface UservoterecordMapper extends BaseMapper<UserVoteRecord> {
 
 }
 

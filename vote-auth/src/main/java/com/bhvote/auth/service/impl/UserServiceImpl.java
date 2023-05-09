@@ -97,11 +97,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         HttpServletRequest request = attributes.getRequest();
         // 假设JWT放在请求头的Authorization字段中，且以"Bearer "开头
         //请求头： Authorization = Bearer +{token}
-        String token = request.getHeader("Authorization").substring(7);
+        String Authorization = request.getHeader("Authorization");
 
-        if (token == null){
+        if (Authorization == null || Authorization == ""){
             throw new SystemException(AppHttpCodeEnum.TOKEN_EMPTY);
         }
+
+        String token = Authorization.substring(7);
 
         //2. 解析token
         Claims claims = null;

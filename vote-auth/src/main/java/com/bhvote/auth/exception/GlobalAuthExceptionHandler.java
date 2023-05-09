@@ -20,7 +20,7 @@ public class GlobalAuthExceptionHandler {
         //打印异常信息
         log.error("出现了异常 {}",e.getMessage());
         //从异常对象中获取提示信息封装返回
-        return R.error(AppHttpCodeEnum.SYSTEM_ERROR.getCode(),e.getMessage());
+        return R.error().put("msg",e.getMessage());
     }
 
     @ExceptionHandler(SystemException.class)

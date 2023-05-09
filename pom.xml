@@ -9,6 +9,7 @@
         <module>vote-modules</module>
         <module>vote-auth</module>
         <module>vote-modules/vote-modules-vote</module>
+        <module>vote-modules/vote-modules-permission</module>
     </modules>
     <groupId>com.bhvote</groupId>
     <artifactId>bh-vote</artifactId>

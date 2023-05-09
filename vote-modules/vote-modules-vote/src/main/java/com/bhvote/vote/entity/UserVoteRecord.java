@@ -1,9 +1,7 @@
 package com.bhvote.vote.entity;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +17,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("UserVoteRecord")
-public class Uservoterecord  {
+@TableName("user_vote_record")
+public class UserVoteRecord {
     //记录ID
     @TableId
     private Long id;

@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("User")
+@TableName("user")
 public class User  {
     //用户ID
     @TableId
