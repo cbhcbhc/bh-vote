@@ -1,0 +1,19 @@
+server:
+  port: 9202
+spring:
+  application:
+    name: vote-modules-permission
+  profiles:
+    active: dev
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 139.159.162.93:8848
+      #获取配置信息
+      config:
+        server-addr: 139.159.162.93:8848
+        #从gateway命名空间下获取配置
+        namespace: c0577fda-5be5-4958-a576-e0836a91603f
+        # 配置文件后缀名
+        file-extension: yml
