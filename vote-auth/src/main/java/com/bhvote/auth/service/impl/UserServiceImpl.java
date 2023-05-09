@@ -2,6 +2,7 @@ package com.bhvote.auth.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bhvote.auth.constant.AuthConstant;
 import com.bhvote.auth.dto.LoginDto;
 import com.bhvote.auth.dto.RegisterDto;
 import com.bhvote.auth.entity.User;
@@ -93,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.createJWT(String.valueOf(loginDto.getUserId()));
 
         //3.2 把token缓存到redis中  key为："login-"+"手机号"
-        redisService.setCacheObject("login-"+loginDto.getUserId(),token);
+        redisService.setCacheObject(AuthConstant.REDISKEY +loginDto.getUserId(),token);
 
         //4.把token返回给前端
         return token;
@@ -106,7 +107,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         HttpServletRequest request = attributes.getRequest();
         // 假设JWT放在请求头的Authorization字段中，且以"Bearer "开头
         //请求头： Authorization = Bearer +{token}
-        String Authorization = request.getHeader("Authorization");
+        String Authorization = request.getHeader(AuthConstant.Header);
 
         if (Authorization == null || Authorization == ""){
             throw new SystemException(AppHttpCodeEnum.TOKEN_EMPTY);
@@ -124,7 +125,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String userId = claims.getSubject();
 
         //3. 删除该用户在redis中的token缓存
-        String tokenKey = "login-" + userId;
+        String tokenKey = AuthConstant.REDISKEY + userId;
         redisService.deleteObject(tokenKey);
     }
 
