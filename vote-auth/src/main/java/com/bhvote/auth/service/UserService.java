@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.bhvote.auth.dto.LoginDto;
 import com.bhvote.auth.dto.RegisterDto;
 import com.bhvote.auth.entity.User;
+import com.bhvote.auth.vo.LoginVo;
 
 
 /**
@@ -17,7 +18,7 @@ public interface UserService extends IService<User> {
     void register(RegisterDto registerDto);
 
 
-    String login(LoginDto loginDto);
+    LoginVo login(LoginDto loginDto);
 
     void logout();
 

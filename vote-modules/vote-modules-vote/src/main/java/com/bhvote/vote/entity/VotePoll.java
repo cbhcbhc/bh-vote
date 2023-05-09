@@ -29,6 +29,8 @@ public class VotePoll  {
     private String voteTitle;
     //投票描述
     private String voteDescription;
+    //投票图片
+    private String voteImage;
     //创建者ID
     private Long voteCreatorId;
     //开始时间

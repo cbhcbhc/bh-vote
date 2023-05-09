@@ -27,7 +27,6 @@ public class User  {
 
     //用户账号(微信小程序标识)
     private Long userId;
-
     //用户名
     private String userName;
     //邮箱

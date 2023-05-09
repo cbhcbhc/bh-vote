@@ -29,6 +29,8 @@ public class VoteOption  {
     private Integer voteId;
     //选项内容
     private String optionContent;
+    //选项图片
+    private String optionImage;
     //创建时间
     private LocalDateTime createTime;
     //更新时间

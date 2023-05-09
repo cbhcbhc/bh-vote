@@ -9,10 +9,12 @@ import com.bhvote.auth.entity.User;
 import com.bhvote.auth.feign.PermissionFeignService;
 import com.bhvote.auth.mapper.UserMapper;
 import com.bhvote.auth.service.UserService;
+import com.bhvote.auth.vo.LoginVo;
 import com.bhvote.redis.service.RedisService;
 import enums.AppHttpCodeEnum;
 import exception.SystemException;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
  * @since 2023-05-08 15:43:25
  */
 @Service("userService")
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Resource
     private RedisService redisService;
@@ -68,7 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public String login(LoginDto loginDto) {
+    public LoginVo login(LoginDto loginDto) {
         //1.判断账号是否存在
         LambdaQueryWrapper<User> w = new LambdaQueryWrapper<>();
         w.eq(User::getUserId,loginDto.getUserId());
@@ -94,10 +97,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.createJWT(String.valueOf(loginDto.getUserId()));
 
         //3.2 把token缓存到redis中  key为："login-"+"手机号"
-        redisService.setCacheObject(AuthConstant.REDISKEY +loginDto.getUserId(),token);
+        String redisKey = AuthConstant.REDISKEY +loginDto.getUserId();
+
+        redisService.deleteObject(redisKey);
+        log.info("redisKey = {}",redisKey);
+        redisService.setCacheObject(redisKey,token);
 
         //4.把token返回给前端
-        return token;
+        LoginVo loginVo = new LoginVo();
+        loginVo.setUserId(user.getUserId());
+        loginVo.setUserName(user.getUserName());
+        loginVo.setUserEmail(user.getUserEmail());
+        loginVo.setToken(token);
+        return loginVo;
     }
 
     @Override

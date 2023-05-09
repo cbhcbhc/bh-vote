@@ -3,6 +3,7 @@ package com.bhvote.auth.controller;
 import com.bhvote.auth.dto.LoginDto;
 import com.bhvote.auth.dto.RegisterDto;
 import com.bhvote.auth.service.UserService;
+import com.bhvote.auth.vo.LoginVo;
 import domain.R;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +39,8 @@ public class UserController {
      */
     @PostMapping("/login")
     public R login(@Valid @RequestBody LoginDto loginDto){
-        String token = userService.login(loginDto);
-        return R.ok().put("data",token).put("msg","用户登录成功");
+        LoginVo loginVo = userService.login(loginDto);
+        return R.ok().put("data",loginVo).put("msg","用户登录成功");
     }
 
 
