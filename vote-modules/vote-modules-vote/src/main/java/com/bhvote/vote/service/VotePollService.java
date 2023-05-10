@@ -1,8 +1,10 @@
 package com.bhvote.vote.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bhvote.database.utils.PageUtils;
 import com.bhvote.vote.dto.VoteCreateDto;
 import com.bhvote.vote.entity.VotePoll;
+import dto.PageDto;
 
 
 /**
@@ -14,5 +16,7 @@ import com.bhvote.vote.entity.VotePoll;
 public interface VotePollService extends IService<VotePoll> {
 
     void createVote(VoteCreateDto voteCreateDto);
+
+    PageUtils getVoteList(PageDto pageDto);
 }
 

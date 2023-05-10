@@ -1,12 +1,12 @@
 package com.bhvote.vote.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bhvote.database.utils.PageUtils;
 import com.bhvote.vote.dto.VoteCreateDto;
-import com.bhvote.vote.entity.VoteCategory;
-import com.bhvote.vote.entity.VoteOption;
-import com.bhvote.vote.entity.VotePoll;
+import com.bhvote.vote.entity.*;
 import com.bhvote.vote.mapper.VotePollMapper;
 import com.bhvote.vote.service.*;
+import dto.PageDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,8 +38,6 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
          * 1. 保存--> vote_poll 投票表
          * 2. 保存--> vote_category 投票分类表
          * 3. 保存--> vote_option 投票选项表
-         * 4. 保存--> user_vote_record 用户参与投票表
-         * 5. 保存--> vote_record 投票记录表
          */
 
         //创建投票用户
@@ -87,8 +85,11 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
         voteOptionService.save(voteOption);
 
 
+    }
 
-
+    @Override
+    public PageUtils getVoteList(PageDto pageDto) {
+        return null;
     }
 }
 
