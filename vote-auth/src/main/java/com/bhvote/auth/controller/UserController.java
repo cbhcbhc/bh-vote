@@ -1,14 +1,13 @@
 package com.bhvote.auth.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bhvote.auth.dto.LoginDto;
 import com.bhvote.auth.dto.RegisterDto;
+import com.bhvote.auth.entity.User;
 import com.bhvote.auth.service.UserService;
 import com.bhvote.auth.vo.LoginVo;
 import domain.R;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -52,5 +51,17 @@ public class UserController {
     public R logout() throws Exception {
         userService.logout();
         return R.ok().put("msg","账号注销成功");
+    }
+
+    /**
+     * 4. 根据用户id查询用户信息
+     * url: /auth/auth/getUserInfo/{userId}
+     */
+    @GetMapping("/getUserInfo/{userId}")
+    public User getUserInfo(@PathVariable("userId") Long userId){
+        LambdaQueryWrapper<User> w = new LambdaQueryWrapper<>();
+        w.eq(User::getUserId,userId);
+        User user = userService.getBaseMapper().selectOne(w);
+        return user;
     }
 }

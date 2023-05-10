@@ -1,5 +1,6 @@
 package com.bhvote.vote.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bhvote.vote.entity.VoteResult;
 import com.bhvote.vote.mapper.VoteResultMapper;
@@ -15,5 +16,18 @@ import org.springframework.stereotype.Service;
 @Service("voteResultService")
 public class VoteResultServiceImpl extends ServiceImpl<VoteResultMapper, VoteResult> implements VoteResultService {
 
+
+    @Override
+    public Integer getOptionCount(Long voteId, Long optionId) {
+        LambdaQueryWrapper<VoteResult> w = new LambdaQueryWrapper<>();
+        w.eq(VoteResult::getOptionId,optionId);
+        w.eq(VoteResult::getVoteId,voteId);
+        VoteResult voteResult = getBaseMapper().selectOne(w);
+        if (voteResult == null){
+            return null;
+        }
+        Integer voteCount = voteResult.getVoteCount();
+        return voteCount;
+    }
 }
 

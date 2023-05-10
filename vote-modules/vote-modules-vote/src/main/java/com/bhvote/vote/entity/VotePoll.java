@@ -35,6 +35,8 @@ public class VotePoll  {
     private Long voteCreatorId;
     //投票类型：0代表单选，1代表可多选
     private Integer voteType;
+    //投票总人数
+    private Integer voteNumber;
     //排序标志（数字越小越靠前）
     private Integer sort;
     //开始时间

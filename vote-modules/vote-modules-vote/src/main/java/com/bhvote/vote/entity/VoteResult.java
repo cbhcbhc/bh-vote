@@ -29,7 +29,7 @@ public class VoteResult  {
     private Long voteId;
     //选项ID
     private Long optionId;
-    //投票数
+    //选项投票数
     private Integer voteCount;
     //创建时间
     private LocalDateTime createTime;

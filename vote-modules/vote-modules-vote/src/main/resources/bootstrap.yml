@@ -17,3 +17,6 @@ spring:
         namespace: 856e9c8b-1464-475d-949e-145e9586dbb2
         # 配置文件后缀名
         file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

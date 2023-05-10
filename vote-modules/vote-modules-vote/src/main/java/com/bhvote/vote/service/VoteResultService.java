@@ -12,5 +12,7 @@ import com.bhvote.vote.entity.VoteResult;
  */
 public interface VoteResultService extends IService<VoteResult> {
 
+
+    Integer getOptionCount(Long voteId, Long optionId);
 }
 

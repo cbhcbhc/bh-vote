@@ -3,6 +3,8 @@ package com.bhvote.vote.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bhvote.vote.entity.VoteOption;
 
+import java.util.List;
+
 
 /**
  * 投票选项表(VoteOption)表服务接口
@@ -12,5 +14,6 @@ import com.bhvote.vote.entity.VoteOption;
  */
 public interface VoteOptionService extends IService<VoteOption> {
 
+    List<VoteOption> getOptionByVoteId(Long voteId);
 }
 

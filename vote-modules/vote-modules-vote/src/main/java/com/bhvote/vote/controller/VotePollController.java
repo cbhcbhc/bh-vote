@@ -1,14 +1,13 @@
 package com.bhvote.vote.controller;
 
-import com.bhvote.database.utils.PageUtils;
 import com.bhvote.vote.dto.VoteCreateDto;
+import com.bhvote.vote.dto.VoteInfoDto;
+import com.bhvote.vote.dto.VoteListDto;
 import com.bhvote.vote.service.VotePollService;
+import com.bhvote.vote.vo.VoteListVo;
+import com.bhvote.vote.vo.VoteVo;
 import domain.R;
-import dto.PageDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -31,13 +30,23 @@ public class VotePollController {
     }
 
     /**
-     * 2. 分页获取投票列表
+     * 2. 根据分类Id分页获取投票列表
      * url: /vote/votepoll/vote/list
      */
-    @GetMapping("/vote/list")
-    public R getVoteList(@Valid PageDto pageDto){
-        PageUtils page = votePollService.getVoteList(pageDto);
+    @PostMapping("/vote/list")
+    public R getVoteList(@RequestBody @Valid VoteListDto voteListDto){
+        VoteListVo page = votePollService.getVoteList(voteListDto);
         return R.ok().put("data",page).put("msg","投票列表获取成功");
+    }
+
+    /**
+     * 3. 获取单个投票详情接口
+     * url: /vote/votepoll/voteInfo
+     */
+    @PostMapping("/voteInfo")
+    public R getVoteInfoByVoteId(@RequestBody @Valid VoteInfoDto voteInfoDto){
+        VoteVo voteVo = votePollService.getVoteInfoByVoteId(voteInfoDto);
+        return R.ok().put("data",voteVo).put("msg","获取投票信息成功");
     }
 
 }
