@@ -52,4 +52,15 @@ public class VotePollController {
         return R.ok().put("data",voteVo).put("msg","获取投票信息成功");
     }
 
+    /**
+     * 4. 用户投票
+     * url: /vote/votepoll/join/{userId}
+     * 用户参与投票
+     */
+    @PostMapping("/join/{userId}")
+    public R joinVote(@PathVariable("userId") Long userId){
+        votePollService.joinVote(userId);
+        return R.ok().put("msg","用户投票成功");
+    }
+
 }

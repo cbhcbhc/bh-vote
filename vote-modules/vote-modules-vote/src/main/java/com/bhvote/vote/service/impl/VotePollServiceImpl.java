@@ -208,5 +208,10 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
 
         return voteVo;
     }
+
+    @Override
+    public void joinVote(Long userId) {
+        //TODO
+    }
 }
 

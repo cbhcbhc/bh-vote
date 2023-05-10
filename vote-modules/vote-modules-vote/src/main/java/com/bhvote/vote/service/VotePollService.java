@@ -23,5 +23,6 @@ public interface VotePollService extends IService<VotePoll> {
 
     VoteVo getVoteInfoByVoteId( VoteInfoDto voteInfoDto);
 
+    void joinVote(Long userId);
 }
 
