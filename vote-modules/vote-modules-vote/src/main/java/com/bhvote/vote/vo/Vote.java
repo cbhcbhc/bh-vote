@@ -1,5 +1,6 @@
 package com.bhvote.vote.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,9 @@ public class Vote {
     //创建者姓名
     private String voteCreateName;
     //开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime voteStartTime;
     //结束时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime voteEndTime;
 }

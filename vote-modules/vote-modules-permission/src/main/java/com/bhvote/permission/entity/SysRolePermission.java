@@ -2,6 +2,8 @@ package com.bhvote.permission.entity;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,10 @@ public class SysRolePermission  {
     private Long roleId;
     //权限ID
     private Long permissionId;
-
+    //创建时间
+    private LocalDateTime createTime;
+    //更新时间
+    private LocalDateTime updateTime;
 
 
 }
