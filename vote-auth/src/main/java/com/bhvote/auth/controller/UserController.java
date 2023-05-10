@@ -6,6 +6,7 @@ import com.bhvote.auth.dto.RegisterDto;
 import com.bhvote.auth.entity.User;
 import com.bhvote.auth.service.UserService;
 import com.bhvote.auth.vo.LoginVo;
+import com.bhvote.auth.vo.RegisterVo;
 import domain.R;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,8 @@ public class UserController {
      */
     @PostMapping("/register")
     public R register(@Valid @RequestBody RegisterDto registerDto){
-        userService.register(registerDto);
-        return R.ok().put("msg","账号注册成功！");
+        RegisterVo registerVo = userService.register(registerDto);
+        return R.ok().put("data",registerVo).put("msg","账号注册成功！");
     }
 
     /**

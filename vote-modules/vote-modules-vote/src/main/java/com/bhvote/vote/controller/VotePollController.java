@@ -21,6 +21,7 @@ public class VotePollController {
     /**
      * 1. 创建投票
      * url: /vote/votepoll/vote/create
+     * 用于创建投票，包括投票标题、选项等信息
      * @return
      */
     @PostMapping("/vote/create")
@@ -32,6 +33,7 @@ public class VotePollController {
     /**
      * 2. 根据分类Id分页获取投票列表
      * url: /vote/votepoll/vote/list
+     * 用于获取所有的投票列表
      */
     @PostMapping("/vote/list")
     public R getVoteList(@RequestBody @Valid VoteListDto voteListDto){
@@ -42,6 +44,7 @@ public class VotePollController {
     /**
      * 3. 获取单个投票详情接口
      * url: /vote/votepoll/voteInfo
+     * 获取单个投票详情接口：用于获取单个投票的详细信息，包括投票标题、选项、投票人数等信息
      */
     @PostMapping("/voteInfo")
     public R getVoteInfoByVoteId(@RequestBody @Valid VoteInfoDto voteInfoDto){

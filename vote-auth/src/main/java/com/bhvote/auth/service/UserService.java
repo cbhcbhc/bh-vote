@@ -5,6 +5,7 @@ import com.bhvote.auth.dto.LoginDto;
 import com.bhvote.auth.dto.RegisterDto;
 import com.bhvote.auth.entity.User;
 import com.bhvote.auth.vo.LoginVo;
+import com.bhvote.auth.vo.RegisterVo;
 
 
 /**
@@ -15,7 +16,7 @@ import com.bhvote.auth.vo.LoginVo;
  */
 public interface UserService extends IService<User> {
 
-    void register(RegisterDto registerDto);
+    RegisterVo register(RegisterDto registerDto);
 
 
     LoginVo login(LoginDto loginDto);

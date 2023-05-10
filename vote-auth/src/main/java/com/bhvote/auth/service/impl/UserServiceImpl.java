@@ -10,6 +10,7 @@ import com.bhvote.auth.feign.PermissionFeignService;
 import com.bhvote.auth.mapper.UserMapper;
 import com.bhvote.auth.service.UserService;
 import com.bhvote.auth.vo.LoginVo;
+import com.bhvote.auth.vo.RegisterVo;
 import com.bhvote.redis.service.RedisService;
 import enums.AppHttpCodeEnum;
 import exception.SystemException;
@@ -42,11 +43,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Transactional
     @Override
-    public void register(RegisterDto registerDto) {
+    public RegisterVo register(RegisterDto registerDto) {
         //1.判断账号是否已经注册
         Long userId = registerDto.getUserId();
         LambdaQueryWrapper<User> w = new LambdaQueryWrapper<>();
-        w.eq(User::getUserId,registerDto.getUserId());
+        w.eq(User::getUserId, userId);
         User u = baseMapper.selectOne(w);
         if (u != null){
             throw new SystemException(AppHttpCodeEnum.USER_EXIST);
@@ -54,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         //2.注册
         User user = new User();
-        user.setUserId(registerDto.getUserId());
+        user.setUserId(userId);
         user.setUserName(registerDto.getUserName());
         user.setUserEmail(registerDto.getUserEmail());
         //密码加密存储
@@ -63,11 +64,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUpdateTime(LocalDateTime.now());
 
         //3.授权（普通用户）
-        permissionFeignService.authorizeByUserId(registerDto.getUserId());
+        permissionFeignService.authorizeByUserId(userId);
 
         //保存
         save(user);
 
+        /**
+         * 3.1 根据userId生成token
+         * 3.2 把token缓存到redis中
+         */
+
+        //3.1 根据userId生成token
+        String token = JwtUtil.createJWT(String.valueOf(userId));
+
+        //3.2 把token缓存到redis中  key为："login-"+"手机号"
+        String redisKey = AuthConstant.REDISKEY + userId;
+
+        redisService.deleteObject(redisKey);
+        log.info("redisKey = {}",redisKey);
+        redisService.setCacheObject(redisKey,token);
+
+        //4.把token返回给前端
+        RegisterVo registerVo = new RegisterVo();
+        registerVo.setUserId(userId);
+        registerVo.setUserName(registerDto.getUserName());
+        registerVo.setUserEmail(registerDto.getUserEmail());
+        registerVo.setToken(token);
+
+        return registerVo;
     }
 
     @Override
