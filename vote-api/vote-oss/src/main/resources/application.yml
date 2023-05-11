@@ -1,0 +1,12 @@
+#server:
+#  port: 9000
+#spring:
+#  application:
+#    name: vote-oss
+#  profiles:
+#    active: dev
+oss:
+  accessKey: 9Rj9lMl9x3hUtjlviQVHGczQ8gDOaCanUqraLzFp
+  secretKey: ruOB8qtj-E4OAniq6QSNQfxrScnLF2jPDDPG9aQl
+  bucket: milsun
+  domainname: http://milsun.yklinga.ltd/

@@ -1,0 +1,22 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: vote-oss
+  profiles:
+    active: dev
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 139.159.162.93:8848
+      #获取配置信息
+      config:
+        server-addr: 139.159.162.93:8848
+        #从gateway命名空间下获取配置
+        namespace: 6f716a48-c766-4c61-a89c-8215f683f093
+        # 配置文件后缀名
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
