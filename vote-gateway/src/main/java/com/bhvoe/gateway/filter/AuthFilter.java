@@ -1,6 +1,5 @@
 package com.bhvoe.gateway.filter;
 
-//import com.msmall.gateway.config.GateWayWhiteListConfig;
 import com.alibaba.fastjson.JSONObject;
 import com.bhvoe.gateway.config.GateWayWhiteListConfig;
 import com.bhvoe.gateway.constant.GatewayConstant;
@@ -28,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 认证全局过滤器
  */
-//@Component
+@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
@@ -82,16 +81,17 @@ public class AuthFilter implements GlobalFilter, Ordered {
         //获取账户id
         String userId = claims.getSubject();
         String tokenKey = GatewayConstant.REDISTOKEN+ userId;
+        String str = redisService.getCacheObject(tokenKey);
         //进行校验
-        if (userId!= null && redisService.getCacheObject(tokenKey) == token){
-            // 将token放入请求头中，传递给下游服务
-            ServerHttpRequest modifiedRequest = request.mutate().header(AUTHORIZATION_HEADER, BEARER_PREFIX + token).build();
-            return chain.filter(exchange.mutate().request(modifiedRequest).build());
+        if (userId == null || !str.equals(token) ){
+            // 如果token无效，返回鉴权失败
+            log.error("token非法...");
+            return writeResponse(exchange.getResponse(),503,"token非法...");
         }
+        // 将token放入请求头中，传递给下游服务
+        ServerHttpRequest modifiedRequest = request.mutate().header(AUTHORIZATION_HEADER, BEARER_PREFIX + token).build();
+        return chain.filter(exchange.mutate().request(modifiedRequest).build());
 
-        // 如果token无效，返回鉴权失败
-        log.error("token非法...");
-        return writeResponse(exchange.getResponse(),503,"token非法...");
     }
 
     /**

@@ -120,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //3.1 根据userId生成token
         String token = JwtUtil.createJWT(String.valueOf(loginDto.getUserId()));
 
-        //3.2 把token缓存到redis中  key为："login-"+"手机号"
+        //3.2 把token缓存到redis中  key为："login-"+"账号"
         String redisKey = AuthConstant.REDISKEY +loginDto.getUserId();
 
         redisService.deleteObject(redisKey);

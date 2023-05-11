@@ -21,7 +21,7 @@ public class VoteCategoryController {
      * 1.获取所有投票分类
      * url: /vote/vote/getVoteCategory/list
      */
-    @GetMapping("/vote/getVoteCategory/list")
+    @GetMapping("/getVoteCategory/list")
     public R getCategoryList(){
         List<VoteCategoryVo> voteListVos = voteCategoryService.getCategoryList();
         return R.ok().put("data",voteListVos).put("msg","投票分类获取成功");

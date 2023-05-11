@@ -14,7 +14,9 @@ public enum AppHttpCodeEnum {
     USER_NOT_EXIST(501,"账号未注册"),
     LOGIN_ERROR(502,"用户名或密码错误" ),
     TOKEN_EMPTY(503,"token为空" ),
-    TOKEN_ERROR(504, "token非法");
+    TOKEN_ERROR(504, "token非法"),
+    FILE_SIZE_ERROR(505, "请上传小于5M的图片"),
+    FILE_TYPE_ERROR(506, "图片格式错误，请上传png或jpg格式的文件");
 
 
 
