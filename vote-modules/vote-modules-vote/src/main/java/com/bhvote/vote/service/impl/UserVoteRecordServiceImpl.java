@@ -1,8 +1,10 @@
 package com.bhvote.vote.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bhvote.vote.dto.VoteJoinDto;
 import com.bhvote.vote.entity.UserVoteRecord;
+import com.bhvote.vote.entity.VoteRecord;
 import com.bhvote.vote.mapper.UservoterecordMapper;
 import com.bhvote.vote.service.UserVoteRecordService;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,13 @@ public class UserVoteRecordServiceImpl extends ServiceImpl<UservoterecordMapper,
         save(userVoteRecord);
 
 
+    }
+
+    @Override
+    public void removeByVoteId(Long voteId) {
+        LambdaQueryWrapper<UserVoteRecord> w = new LambdaQueryWrapper<>();
+        w.eq(UserVoteRecord::getVoteId,voteId);
+        remove(w);
     }
 }
 

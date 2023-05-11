@@ -26,5 +26,13 @@ public class VoteOptionServiceImpl extends ServiceImpl<VoteOptionMapper, VoteOpt
         List<VoteOption> list = list(w);
         return list;
     }
+
+    @Override
+    public void removeByVoteId(Long voteId) {
+        LambdaQueryWrapper<VoteOption> w = new LambdaQueryWrapper<>();
+        w.eq(VoteOption::getVoteId,voteId);
+
+        remove(w);
+    }
 }
 

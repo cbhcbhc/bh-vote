@@ -14,5 +14,7 @@ import com.bhvote.vote.entity.VoteRecord;
 public interface VoteRecordService extends IService<VoteRecord> {
 
     void updateRecord(VoteJoinDto dto);
+
+    void removeByVoteId(Long voteId);
 }
 

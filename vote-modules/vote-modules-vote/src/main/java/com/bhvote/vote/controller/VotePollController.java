@@ -77,4 +77,14 @@ public class VotePollController {
         return R.ok().put("data",vo).put("msg","投票信息获取成功");
     }
 
+    /**
+     * 6. 删除投票
+     * url: /vote/votepoll/delete/{voteId}
+     */
+    @DeleteMapping("/delete/{voteId}")
+    public R deleteVote(@PathVariable("voteId") Long voteId){
+        votePollService.deleteVote(voteId);
+        return R.ok().put("msg","投票删除成功");
+    }
+
 }

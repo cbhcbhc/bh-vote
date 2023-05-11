@@ -253,6 +253,37 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
 
     @Transactional
     @Override
+    public void deleteVote(Long voteId) {
+        /**
+         * 1. 删除投票表信息 --> vote_poll
+         * 2. 删除投票选项信息 --> vote_option
+         * 3. 删除投票记录信息 --> vote_record
+         * 4. 删除用户投票记录信息 --> user_vote_record
+         * 5. 删除投票结果信息 --> vote_result
+         */
+        //1. 删除投票表信息 --> vote_poll
+        removeById(voteId);
+        log.info("投票表信息删除成功 --> vote_poll");
+
+        //2. 删除投票选项信息 --> vote_option
+        voteOptionService.removeByVoteId(voteId);
+        log.info("投票选项信息删除成功 --> vote_option");
+
+        //3. 删除投票记录信息 --> vote_record
+        voteRecordService.removeByVoteId(voteId);
+        log.info("投票记录信息删除成功 --> vote_record");
+
+        //4. 删除用户投票记录信息 --> user_vote_record
+        userVoteRecordService.removeByVoteId(voteId);
+        log.info("用户投票记录信息删除成功 --> user_vote_record");
+
+        //5. 删除投票结果信息 --> vote_result
+        voteResultService.removeByVoteId(voteId);
+        log.info("投票结果信息删除成功 --> vote_result");
+    }
+
+    @Transactional
+    @Override
     public void joinVote(VoteJoinDto dto) {
         /**
          * 1. 更新投票人数 --> vote_poll

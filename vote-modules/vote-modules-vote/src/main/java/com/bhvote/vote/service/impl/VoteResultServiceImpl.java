@@ -2,6 +2,7 @@ package com.bhvote.vote.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bhvote.vote.entity.UserVoteRecord;
 import com.bhvote.vote.entity.VoteResult;
 import com.bhvote.vote.mapper.VoteResultMapper;
 import com.bhvote.vote.service.VoteResultService;
@@ -28,6 +29,13 @@ public class VoteResultServiceImpl extends ServiceImpl<VoteResultMapper, VoteRes
         }
         Integer voteCount = voteResult.getVoteCount();
         return voteCount;
+    }
+
+    @Override
+    public void removeByVoteId(Long voteId) {
+        LambdaQueryWrapper<VoteResult> w = new LambdaQueryWrapper<>();
+        w.eq(VoteResult::getVoteId,voteId);
+        remove(w);
     }
 }
 

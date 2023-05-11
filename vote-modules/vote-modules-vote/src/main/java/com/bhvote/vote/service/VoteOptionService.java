@@ -15,5 +15,7 @@ import java.util.List;
 public interface VoteOptionService extends IService<VoteOption> {
 
     List<VoteOption> getOptionByVoteId(Long voteId);
+
+    void removeByVoteId(Long voteId);
 }
 

@@ -61,5 +61,12 @@ public class VoteRecordServiceImpl extends ServiceImpl<VoteRecordMapper, VoteRec
 
 
     }
+
+    @Override
+    public void removeByVoteId(Long voteId) {
+        LambdaQueryWrapper<VoteRecord> w = new LambdaQueryWrapper<>();
+        w.eq(VoteRecord::getVoteId,voteId);
+        remove(w);
+    }
 }
 

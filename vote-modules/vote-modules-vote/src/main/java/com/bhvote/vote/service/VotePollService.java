@@ -32,5 +32,7 @@ public interface VotePollService extends IService<VotePoll> {
     void updateVotePull(VoteJoinDto dto);
 
     List<VoteResultVo> getVoteInfo(Long voteId);
+
+    void deleteVote(Long voteId);
 }
 
