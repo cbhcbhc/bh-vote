@@ -3,10 +3,14 @@ package com.bhvote.vote.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bhvote.vote.dto.VoteCreateDto;
 import com.bhvote.vote.dto.VoteInfoDto;
+import com.bhvote.vote.dto.VoteJoinDto;
 import com.bhvote.vote.dto.VoteListDto;
 import com.bhvote.vote.entity.VotePoll;
 import com.bhvote.vote.vo.VoteListVo;
+import com.bhvote.vote.vo.VoteResultVo;
 import com.bhvote.vote.vo.VoteVo;
+
+import java.util.List;
 
 
 /**
@@ -23,6 +27,10 @@ public interface VotePollService extends IService<VotePoll> {
 
     VoteVo getVoteInfoByVoteId( VoteInfoDto voteInfoDto);
 
-    void joinVote(Long userId);
+    void joinVote(VoteJoinDto dto);
+
+    void updateVotePull(VoteJoinDto dto);
+
+    List<VoteResultVo> getVoteInfo(Long voteId);
 }
 

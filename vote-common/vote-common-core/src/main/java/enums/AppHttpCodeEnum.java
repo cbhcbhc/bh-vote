@@ -16,8 +16,8 @@ public enum AppHttpCodeEnum {
     TOKEN_EMPTY(503,"token为空" ),
     TOKEN_ERROR(504, "token非法"),
     FILE_SIZE_ERROR(505, "请上传小于5M的图片"),
-    FILE_TYPE_ERROR(506, "图片格式错误，请上传png或jpg格式的文件");
-
+    FILE_TYPE_ERROR(506, "图片格式错误，请上传png或jpg格式的文件"),
+    NOT_EXIST(507,"投票记录不存在");
 
 
 

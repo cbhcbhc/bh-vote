@@ -6,16 +6,16 @@ import com.bhvote.database.utils.PageResult;
 import com.bhvote.database.utils.PageUtils;
 import com.bhvote.vote.dto.VoteCreateDto;
 import com.bhvote.vote.dto.VoteInfoDto;
+import com.bhvote.vote.dto.VoteJoinDto;
 import com.bhvote.vote.dto.VoteListDto;
 import com.bhvote.vote.entity.*;
 import com.bhvote.vote.feign.AuthFeignService;
 import com.bhvote.vote.feign.feignvo.User;
 import com.bhvote.vote.mapper.VotePollMapper;
 import com.bhvote.vote.service.*;
-import com.bhvote.vote.vo.Option;
-import com.bhvote.vote.vo.Vote;
-import com.bhvote.vote.vo.VoteListVo;
-import com.bhvote.vote.vo.VoteVo;
+import com.bhvote.vote.vo.*;
+import enums.AppHttpCodeEnum;
+import exception.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +46,8 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
     private VoteResultService voteResultService;
     @Resource
     private AuthFeignService authFeignService;
+    @Resource
+    private VotePollMapper votePollMapper;
 
 
     @Transactional
@@ -210,8 +212,78 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
     }
 
     @Override
-    public void joinVote(Long userId) {
-        //TODO
+    public void updateVotePull(VoteJoinDto dto) {
+        // 构建查询条件
+        LambdaQueryWrapper<VotePoll> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(VotePoll::getVoteId, dto.getVoteId());
+
+        // 查询符合条件的数据
+        VotePoll votePoll = votePollMapper.selectOne(wrapper);
+
+        if (votePoll == null) {
+            throw new SystemException(AppHttpCodeEnum.NOT_EXIST);
+        }
+
+        // 更新 vote_poll 字段的值为原来的值加 1
+        votePoll.setVoteNumber(votePoll.getVoteNumber() + 1);
+
+        //更新投票人数
+        update(wrapper);
+
     }
+
+    @Override
+    public List<VoteResultVo> getVoteInfo(Long voteId) {
+        LambdaQueryWrapper<VoteResult> w = new LambdaQueryWrapper<>();
+        w.eq(VoteResult::getVoteId,voteId);
+        List<VoteResult> voteResultList = voteResultService.list(w);
+
+        List<VoteResultVo> voteResultVos = voteResultList.stream()
+                .map(voteResult -> {
+                    VoteResultVo vo = new VoteResultVo();
+                    vo.setResultId(voteResult.getResultId());
+                    vo.setVoteId(voteResult.getVoteId());
+                    vo.setOptionId(voteResult.getOptionId());
+                    vo.setVoteCount(voteResult.getVoteCount());
+                    return vo;
+                }).collect(Collectors.toList());
+        log.info("投票信息封装成功");
+        return voteResultVos;
+    }
+
+    @Transactional
+    @Override
+    public void joinVote(VoteJoinDto dto) {
+        /**
+         * 1. 更新投票人数 --> vote_poll
+         * 2. 更新投票记录表  --> vote_record
+         * 3. 更新用户投票记录表 --> user_vote_record
+         * 4. 更新投票结果表
+         */
+
+
+        // 1. 更新投票人数 --> vote_poll 并且 更新投票结果表
+        this.updateVotePull(dto);
+
+        //2. 更新投票记录表  --> vote_record
+        voteRecordService.updateRecord(dto);
+        log.info("投票记录表  --> vote_record 更新成功");
+
+        //3. 更新用户投票记录表 --> user_vote_record
+        userVoteRecordService.updateRecord(dto);
+        log.info("用户投票记录更新成功");
+
+
+
+
+
+
+
+
+
+    }
+
+
+
 }
 

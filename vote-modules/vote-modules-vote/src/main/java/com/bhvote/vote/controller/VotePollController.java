@@ -2,15 +2,18 @@ package com.bhvote.vote.controller;
 
 import com.bhvote.vote.dto.VoteCreateDto;
 import com.bhvote.vote.dto.VoteInfoDto;
+import com.bhvote.vote.dto.VoteJoinDto;
 import com.bhvote.vote.dto.VoteListDto;
 import com.bhvote.vote.service.VotePollService;
 import com.bhvote.vote.vo.VoteListVo;
+import com.bhvote.vote.vo.VoteResultVo;
 import com.bhvote.vote.vo.VoteVo;
 import domain.R;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/votepoll")
@@ -54,13 +57,24 @@ public class VotePollController {
 
     /**
      * 4. 用户投票
-     * url: /vote/votepoll/join/{userId}
+     * url: /vote/votepoll/join/
      * 用户参与投票
      */
-    @PostMapping("/join/{userId}")
-    public R joinVote(@PathVariable("userId") Long userId){
-        votePollService.joinVote(userId);
+    @PostMapping("/join")
+    public R joinVote(@RequestBody @Valid VoteJoinDto dto){
+        votePollService.joinVote(dto);
         return R.ok().put("msg","用户投票成功");
+    }
+
+    /**
+     * 5. 根据voteId获取所有投票信息
+     * url: /vote/votepoll/info/{voteId}
+     * 排行榜
+     */
+    @GetMapping("/info/{voteId}")
+    public R getVoteInfo(@PathVariable("voteId") Long voteId){
+        List<VoteResultVo> vo = votePollService.getVoteInfo(voteId);
+        return R.ok().put("data",vo).put("msg","投票信息获取成功");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.bhvote.vote.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bhvote.vote.dto.VoteJoinDto;
 import com.bhvote.vote.entity.UserVoteRecord;
 
 
@@ -12,5 +13,6 @@ import com.bhvote.vote.entity.UserVoteRecord;
  */
 public interface UserVoteRecordService extends IService<UserVoteRecord> {
 
+    void updateRecord(VoteJoinDto dto);
 }
 
