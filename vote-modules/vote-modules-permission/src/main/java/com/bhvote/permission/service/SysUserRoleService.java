@@ -1,7 +1,10 @@
 package com.bhvote.permission.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bhvote.permission.entity.SysPermission;
 import com.bhvote.permission.entity.SysUserRole;
+
+import java.util.List;
 
 
 /**
@@ -14,5 +17,9 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 
 
     void authorizeByUserId(Long userId);
+
+    List<SysPermission> getPermissionByRoleId(Long roleId);
+
+    List<SysPermission> getPermissionInfo(List<Long> permissions);
 }
 

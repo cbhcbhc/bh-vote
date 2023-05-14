@@ -1,9 +1,6 @@
 package com.bhvote.vote.controller;
 
-import com.bhvote.vote.dto.VoteCreateDto;
-import com.bhvote.vote.dto.VoteInfoDto;
-import com.bhvote.vote.dto.VoteJoinDto;
-import com.bhvote.vote.dto.VoteListDto;
+import com.bhvote.vote.dto.*;
 import com.bhvote.vote.service.VotePollService;
 import com.bhvote.vote.vo.VoteListVo;
 import com.bhvote.vote.vo.VoteResultVo;
@@ -85,6 +82,16 @@ public class VotePollController {
     public R deleteVote(@PathVariable("voteId") Long voteId){
         votePollService.deleteVote(voteId);
         return R.ok().put("msg","投票删除成功");
+    }
+
+    /**
+     * 7. 修改投票
+     * url: /vote/votepoll/update
+     */
+    @PostMapping("/update")
+    public R updateVote(@RequestBody VoteUpdateDto dto){
+        votePollService.updateVote(dto);
+        return R.ok().put("msg","修改投票成功");
     }
 
 }

@@ -20,6 +20,16 @@ services:
     ports:
       - "10000:10000"
 
+  vote-oss:
+    build:
+      context: ./dockerfile
+      dockerfile: dockerfile-oss
+    image: vote-oss:1.0
+    restart: always
+    container_name: vote-oss
+    ports:
+      - "9000:9000"
+
   vote-modules-permission:
     build:
       context: ./dockerfile

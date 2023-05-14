@@ -1,6 +1,7 @@
 package com.bhvote.vote.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bhvote.vote.dto.VoteUpdateDto;
 import com.bhvote.vote.entity.VoteOption;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface VoteOptionService extends IService<VoteOption> {
     List<VoteOption> getOptionByVoteId(Long voteId);
 
     void removeByVoteId(Long voteId);
+
+    void updateOption(VoteUpdateDto dto);
 }
 

@@ -65,18 +65,15 @@ public class AuthFilter implements GlobalFilter, Ordered {
              //如果请求头中没有Authorization字段，或者字段值不以Bearer开头，直接返回鉴权失败
             log.error("token验证失败或已过期...");
             return writeResponse(exchange.getResponse(),401,"token验证失败或已过期...请重新登录");
-
         }
-
         //获取token的值,并访问redis进行校验
         String token = authorizationHeader.substring(BEARER_PREFIX.length());
-
         // 解析token
         Claims claims = null;
         try {
             claims = JwtUtil.parseJWT(token);
         } catch (Exception e) {
-            throw new SystemException(AppHttpCodeEnum.TOKEN_ERROR);
+            return writeResponse(exchange.getResponse(),503,"token非法...");
         }
         //获取账户id
         String userId = claims.getSubject();
@@ -87,6 +84,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
             // 如果token无效，返回鉴权失败
             log.error("token非法...");
             return writeResponse(exchange.getResponse(),503,"token非法...");
+
         }
         // 将token放入请求头中，传递给下游服务
         ServerHttpRequest modifiedRequest = request.mutate().header(AUTHORIZATION_HEADER, BEARER_PREFIX + token).build();

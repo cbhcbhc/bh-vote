@@ -73,7 +73,6 @@ public class OssController {
         //默认不指定key的情况下，以文件内容的hash值作为文件名
         String key = filePath;
 
-
         try {
             InputStream inputStream = imgFile.getInputStream();
             Auth auth = Auth.create(ossConfig.getAccessKey(), ossConfig.getSecretKey());

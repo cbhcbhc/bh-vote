@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bhvote.database.utils.PageResult;
 import com.bhvote.database.utils.PageUtils;
-import com.bhvote.vote.dto.VoteCreateDto;
-import com.bhvote.vote.dto.VoteInfoDto;
-import com.bhvote.vote.dto.VoteJoinDto;
-import com.bhvote.vote.dto.VoteListDto;
+import com.bhvote.vote.dto.*;
 import com.bhvote.vote.entity.*;
 import com.bhvote.vote.feign.AuthFeignService;
 import com.bhvote.vote.feign.feignvo.User;
@@ -280,6 +277,35 @@ public class VotePollServiceImpl extends ServiceImpl<VotePollMapper, VotePoll> i
         //5. 删除投票结果信息 --> vote_result
         voteResultService.removeByVoteId(voteId);
         log.info("投票结果信息删除成功 --> vote_result");
+    }
+
+    @Override
+    public void updateVote(VoteUpdateDto dto) {
+        /**
+         * 1. 更新投票表信息 --> vote_poll
+         * 2. 更新投票选项信息 --> vote_option
+         */
+
+        //1. 更新投票表信息 --> vote_poll
+        VotePoll votePoll = new VotePoll();
+        votePoll.setVoteId(dto.getVoteId());
+        votePoll.setVoteTitle(dto.getVoteTitle());
+        votePoll.setVoteDescription(dto.getVoteDescription());
+        votePoll.setVoteImage(dto.getVoteImage());
+        votePoll.setVoteType(dto.getVoteType());
+        votePoll.setVoteStartTime(dto.getVoteStartTime());
+        votePoll.setVoteEndTime(dto.getVoteEndTime());
+
+        LambdaQueryWrapper<VotePoll> w = new LambdaQueryWrapper<>();
+        w.eq(VotePoll::getVoteId,dto.getVoteId());
+        update(votePoll,w);
+        log.info("投票表信息更新成功 --> vote_poll");
+
+        //2. 更新投票选项信息 --> vote_option
+        voteOptionService.updateOption(dto);
+        log.info("投票选项信息更新成功 --> vote_option");
+
+
     }
 
     @Transactional
